@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 from .forms import ProductForm
+from .auth import basic_auth_required
 
 
+@basic_auth_required
 def product_list(request):
     products = Product.objects.all()
     return render(request, "manages/product_list.html", {
@@ -10,6 +12,7 @@ def product_list(request):
     })
 
 
+@basic_auth_required
 def product_create(request):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
@@ -25,6 +28,7 @@ def product_create(request):
     })
 
 
+@basic_auth_required
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
@@ -42,6 +46,7 @@ def product_edit(request, pk):
     })
 
 
+@basic_auth_required
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
