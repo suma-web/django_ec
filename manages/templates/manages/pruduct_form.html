@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h1>{{ title }}</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-success">保存</button>
+    <a href="{% url 'manages:product_list' %}" class="btn btn-secondary">戻る</a>
+  </form>
+</div>
+{% endblock %}
