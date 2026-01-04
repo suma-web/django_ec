@@ -11,8 +11,6 @@ def product_list(request):
         "products": products
     })
 
-
-@basic_auth_required
 def product_create(request):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
@@ -28,7 +26,6 @@ def product_create(request):
     })
 
 
-@basic_auth_required
 def product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
@@ -46,7 +43,6 @@ def product_edit(request, pk):
     })
 
 
-@basic_auth_required
 def product_delete(request, pk):
     product = get_object_or_404(Product, pk=pk)
 
