@@ -3,18 +3,18 @@
 {% block manage_content %}
 <h2>
   {% if product %}
-    Edit Product
+    商品を編集する
   {% else %}
-    Create Product
+    新しい商品を追加する
   {% endif %}
 </h2>
 
-<form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
 
-  <button type="submit">Save</button>
+    {{ form.as_p }}
+
+  <button type="submit">保存</button>
 </form>
 
-<a href="{% url 'manages:product_list' %}">Back to list</a>
+<a href="{% url 'manages:product_list' %}">商品一覧に戻る</a>
 {% endblock %}
