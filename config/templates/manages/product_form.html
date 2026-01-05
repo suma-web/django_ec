@@ -12,9 +12,10 @@
 <form method="post" enctype="multipart/form-data" style="text-align: center;">{% csrf_token %}
 
     {{ form.as_p }}
-
+    
+   <button type="submit" style="margin: 20px 0;">保存</button>
 </form>
-<button type="submit" style="margin: 20px 0;">保存</button>
+
 <a href="{% url 'manages:product_list' %}">商品一覧に戻る</a>
 
 {% endblock %}
