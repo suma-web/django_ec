@@ -1,16 +1,15 @@
 {% extends "manages/base.html" %}
 
 {% block manage_content %}
-<h2>Product List</h2>
+<h2>登録されている商品一覧</h2>
 
-<a href="{% url 'manages:product_create' %}">Create New</a>
+<a href="{% url 'manages:product_create' %}">新しく商品を追加</a>
 
-<table>
+<table style="margin-bottom: 50px;">
   <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Price</th>
-    <th>Actions</th>
+    <th>商品名</th>
+    <th>価格</th>
+    <th>再編集/削除</th>
   </tr>
 
   {% for product in products %}
@@ -19,7 +18,7 @@
     <td>{{ product.name }}</td>
     <td>{{ product.price }}</td>
     <td>
-      <a href="{% url 'manages:product_edit' product.id %}">Edit</a>
+      <a href="{% url 'manages:product_edit' product.id %}" class="danger">再編集</a>
 
       <form action="{% url 'manages:product_delete' product.id %}" method="post" style="display:inline;">{% csrf_token %}
         <button type="submit" class="danger">Delete</button>
