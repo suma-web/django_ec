@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/manages.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="manage-container">
+  <header>
+    <h1>Management</h1>
+    <nav>
+      <a href="{% url 'manages:product_list' %}">Products</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block manage_content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

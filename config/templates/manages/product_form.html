@@ -1,0 +1,20 @@
+{% extends "manages/base.html" %}
+
+{% block manage_content %}
+<h2>
+  {% if product %}
+    Edit Product
+  {% else %}
+    Create Product
+  {% endif %}
+</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+
+  <button type="submit">Save</button>
+</form>
+
+<a href="{% url 'manages:product_list' %}">Back to list</a>
+{% endblock %}

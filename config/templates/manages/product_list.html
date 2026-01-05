@@ -1,0 +1,31 @@
+{% extends "manages/base.html" %}
+
+{% block manage_content %}
+<h2>Product List</h2>
+
+<a href="{% url 'manages:product_create' %}">Create New</a>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Actions</th>
+  </tr>
+
+  {% for product in products %}
+  <tr>
+    <td>{{ product.id }}</td>
+    <td>{{ product.name }}</td>
+    <td>{{ product.price }}</td>
+    <td>
+      <a href="{% url 'manages:product_edit' product.id %}">Edit</a>
+
+      <form action="{% url 'manages:product_delete' product.id %}" method="post" style="display:inline;">{% csrf_token %}
+        <button type="submit" class="danger">Delete</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
