@@ -4,6 +4,7 @@ from .forms import ProductForm
 from django.views.decorators.http import require_POST
 from products.models import Product
 
+
 def product_list(request):
     products = Product.objects.all()
     return render(request, "manages/product_list.html", {

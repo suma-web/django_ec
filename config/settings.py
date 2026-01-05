@@ -30,6 +30,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
     "fast-sands-56979-04346f96456c.herokuapp.com",
 ]
 
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'products',
+    'manages',
     'cloudinary',
     'cloudinary_storage', 
 ]
@@ -152,3 +155,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+LOGIN_URL = "/admin/login/"
+LOGIN_REDIRECT_URL = "/manage/products/"
