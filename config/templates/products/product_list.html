@@ -25,9 +25,9 @@
             <h5 class="fw-bolder">{{ product.name }}</h5>
             ¥{{ product.price }}
           </div>
-          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center btn btn-outline-dark mt-auto">
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
             <form action="{% url 'carts:cart_add' product.id %}" method="post">{% csrf_token %}
-            <button type="submit">カゴに追加</button>
+            <button type="submit" class="btn btn-outline-dark mt-auto">カゴに追加</button>
             </form>
           </div>
         </div>
