@@ -1,7 +1,7 @@
 {% extends "manages/base.html" %}
 
 {% block manage_content %}
-  <h4 style="text-align: center;">登録されている商品一覧</h4>
+  <h4 style="text-align: center; margin-bottom: 20px;">登録されている商品一覧</h4>
 
   <table style="margin-bottom: 50px;">
     <tr>
@@ -17,12 +17,12 @@
       <td>{{ product.name }}</td>
       <td>{{ product.price }}</td>
       <td>{{ product.created_at }}</td>
-      <td><img class="card-img-top" src="{{ product.image.url }}" alt="" width="5%"></td>
+      <td><img class="card-img-top" src="{{ product.image.url }}" alt="" width="20px" height="10px"></td>
       <td>
-        <button type="submit" class="danger"><a href="{% url 'manages:product_edit' product.id %}">再編集</a></button> 
+        <button type="submit" class="btn btn-outline-dark mt-auto"><a href="{% url 'manages:product_edit' product.id %}">再編集</a></button> 
 
         <form action="{% url 'manages:product_delete' product.id %}" method="post" style="display:inline;">{% csrf_token %}
-          <button type="submit" class="danger">削除</button>
+          <button type="submit" class="btn btn-outline-dark mt-auto">削除</button>
         </form>
       </td>
     </tr>
