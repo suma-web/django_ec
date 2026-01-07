@@ -1,0 +1,21 @@
+{% extends "manages/base.html" %}
+
+{% block manage_content %}
+<h3>
+  {% if product %}
+    商品を編集する
+  {% else %}
+    新しい商品を追加する
+  {% endif %}
+</h3>
+
+<form method="post" enctype="multipart/form-data" style="text-align: center;">{% csrf_token %}
+
+    {{ form.as_p }}
+    
+   <button type="submit" style="margin: 20px 0;">保存</button>
+</form>
+
+<a href="{% url 'manages:product_list' %}">商品一覧に戻る</a>
+
+{% endblock %}

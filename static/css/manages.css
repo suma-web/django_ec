@@ -1,0 +1,47 @@
+/* 管理画面全体 */
+.manage {
+  padding: 20px;
+  background: #f7f7f7;
+}
+
+/* 見出し */
+.manage h1,
+.manage h2 {
+  margin-bottom: 16px;
+}
+
+/* 管理メニュー */
+.manage nav a {
+  margin-right: 12px;
+  font-weight: bold;
+}
+
+/* テーブル */
+.manage table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.manage th,
+.manage td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+/* アクション */
+.manage .actions {
+  display: flex;
+  gap: 8px;
+}
+
+.manage a,
+.manage button {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.manage .danger {
+  color: white;
+  background: #d9534f;
+  border: none;
+}
