@@ -4,7 +4,12 @@ from .cart import Cart
 
 def cart_view(request):
     cart = Cart(request)
-    return render(request, "carts/cart_view.html", {"cart": cart})
+    context = {
+        "cart": cart,
+        "cart_total": cart.get_total_price(),
+        "cart_item_count": cart.get_total_quantity(),
+    }
+    return render(request, "carts/cart_view.html", context)
 
 def cart_add(request, product_id):
     cart = Cart(request)
