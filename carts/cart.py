@@ -35,3 +35,14 @@ class Cart:
             item["product"] = product
             item["total_price"] = product.price * item["quantity"]
             yield item
+
+    def get_total_price(self):
+        return sum(
+            item["price"] * item["quantity"]
+            for item in self.cart.values()
+        )
+
+    def get_total_quantity(self):
+        return sum(
+            item["quantity"] for item in self.cart.values()
+        )
