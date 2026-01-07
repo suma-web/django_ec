@@ -26,10 +26,9 @@
             ¥{{ product.price }}
           </div>
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
-            <a class="btn btn-outline-dark mt-auto"
-               href="{% url 'products:detail' product.id %}">
-              カゴに追加
-            </a>
+            <form action="{% url 'carts:cart_add' product.id %}" method="post">{% csrf_token %}
+            <button type="submit">カゴに追加</button>
+            </form>
           </div>
         </div>
       </div>

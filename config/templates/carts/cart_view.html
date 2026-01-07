@@ -1,0 +1,16 @@
+<ul class="list-group mb-3">
+  {% for item in cart %}
+  <li class="list-group-item d-flex justify-content-between lh-sm">
+    <div>
+      <h6 class="my-0">{{ item.product.name }}</h6>
+      <small class="text-muted">数量: {{ item.quantity }}</small>
+    </div>
+    <span class="text-muted">¥{{ item.total_price }}</span>
+
+    <form action="{% url 'carts:cart_remove' item.product.id %}" method="post">
+      {% csrf_token %}
+      <button class="btn btn-sm btn-danger">削除</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
