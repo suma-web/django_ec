@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 from .models import CartItem
-from .cart import Cart
 from .services import get_or_create_cart
 
 
@@ -35,7 +34,9 @@ def cart_add(request, product_id):
     return redirect("carts:cart_view")
 
 def cart_remove(request, product_id):
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    cart.remove(product)
+    cart = get_or_create_cart(request)
+    CartItem.objects.filter(
+            cart=cart,
+            product_id=product_id
+        ).delete()
     return redirect("carts:cart_view")
