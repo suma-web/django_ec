@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
+from .models import CartItem
 from .cart import Cart
+from .services import get_or_create_cart
 
 def cart_view(request):
     cart = Cart(request)
@@ -12,12 +14,19 @@ def cart_view(request):
     return render(request, "carts/cart_view.html", context)
 
 def cart_add(request, product_id):
-    cart = Cart(request)
+    cart = get_or_create_cart(request)
     product = get_object_or_404(Product, id=product_id)
 
-    quantity = int(request.POST.get("quantity", 1))
-    cart.add(product=product, quantity=quantity)
+    item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product,
+        defaults={"price_at_add": product.price}
+    )
 
+    if not created:
+        item.quantity += 1
+
+    item.save()
     return redirect("carts:cart_view")
 
 def cart_remove(request, product_id):
