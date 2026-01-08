@@ -4,12 +4,17 @@ from .models import CartItem
 from .cart import Cart
 from .services import get_or_create_cart
 
+
 def cart_view(request):
-    cart = Cart(request)
+    cart = get_or_create_cart(request)
+
     context = {
         "cart": cart,
-        "cart_total": cart.get_total_price(),
-        "cart_item_count": cart.get_total_quantity(),
+        "cart_item_count": cart.items.count(),
+        "cart_total": sum(
+            item.price_at_add * item.quantity
+            for item in cart.items.all()
+        ),
     }
     return render(request, "carts/cart_view.html", context)
 
