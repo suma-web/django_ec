@@ -5,7 +5,7 @@ class Cart:
         self.session = request.session
         cart = self.session.get("cart")
         if not cart:
-            cart = self.session["cart"] = {}
+            request.session["cart_id"] = cart.id
         self.cart = cart
 
     def add(self, product, quantity=1):
