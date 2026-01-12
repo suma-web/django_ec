@@ -75,10 +75,10 @@
                     <!-- Product actions -->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center">
-                            <a class="btn btn-outline-dark mt-auto"
-                               href="{% url 'products:detail' item.id %}">
-                                View options
-                            </a>
+                            <form action="{% url 'carts:cart_add' product.id %}" method="post">{% csrf_token %}
+                            <input type="number" name="quantity" value="1" min="1">
+                            <button type="submit">カゴに追加</button>
+                            </form>
                         </div>
                     </div>
 

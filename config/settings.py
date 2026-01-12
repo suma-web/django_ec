@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'manages',
+    'carts',
     'cloudinary',
     'cloudinary_storage', 
 ]
@@ -75,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'carts.context_processors.cart_item_count',
             ],
         },
     },
@@ -154,9 +156,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-# LOGIN_URL = "/admin/login/"
-# LOGIN_REDIRECT_URL = "/manage/products/"
 
 BASIC_AUTH_USER = os.environ.get("BASIC_AUTH_USER", "admin")
 BASIC_AUTH_PASSWORD = os.environ.get("BASIC_AUTH_PASSWORD", "password")
