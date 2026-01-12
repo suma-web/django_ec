@@ -69,13 +69,11 @@ def checkout_view(request):
 
             cart_items.delete()
 
-            return redirect("carts:checkout_complete")
+            return redirect("carts:checkout_completed")
 
     else:
         form = CheckoutForm()
 
-    return render(request, "carts/checkout.html", {
-        "form": form,
-        "cart_items": cart_items,
-        "cart_total": total_price,
-    })
+
+def checkout_complete(request):
+    return render(request, "carts/checkout_completed.html")
