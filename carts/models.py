@@ -33,7 +33,6 @@ class Order(models.Model):
     state = models.CharField(max_length=50)
     zip_code = models.CharField(max_length=20)
 
-    # Payment（※学習用）
     card_name = models.CharField(max_length=100)
     card_number = models.CharField(max_length=30)
     card_expiration = models.CharField(max_length=10)
