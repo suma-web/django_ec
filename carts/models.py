@@ -25,7 +25,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50)
-    email = models.EmailField(blank=True)
+    email = models.EmailField()
 
     address = models.CharField(max_length=255)
     address2 = models.CharField(max_length=255, blank=True)
