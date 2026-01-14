@@ -3,11 +3,13 @@ from products.models import Product
 from django.contrib.auth.models import User
 
 class Cart(models.Model):
-    user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def total_price(self):
+        return sum(item.total_price for item in self.items.all())
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -25,7 +27,7 @@ class Order(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50)
-    email = models.EmailField()
+    email = models.EmailField(blank=True)
 
     address = models.CharField(max_length=255)
     address2 = models.CharField(max_length=255, blank=True)
@@ -50,5 +52,6 @@ class OrderItem(models.Model):
     product_price = models.IntegerField()
     quantity = models.IntegerField()
 
+    @property
     def total_price(self):
         return self.product_price * self.quantity
