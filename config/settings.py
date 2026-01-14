@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'carts',
     'cloudinary',
     'cloudinary_storage', 
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 BASIC_AUTH_USER = os.environ.get("BASIC_AUTH_USER", "admin")
 BASIC_AUTH_PASSWORD = os.environ.get("BASIC_AUTH_PASSWORD", "password")
+
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+
+ANYMAIL = {
+    "MAILGUN_API_KEY": os.environ.get("MAILGUN_API_KEY"),   # ← 後述
+    "MAILGUN_SENDER_DOMAIN": os.environ.get("MAILGUN_DOMAIN"),
+}
+
+DEFAULT_FROM_EMAIL = "no-reply@" + os.environ.get("MAILGUN_DOMAIN")
