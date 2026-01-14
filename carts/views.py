@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
-from .forms import CheckoutForm
+from django.contrib import messages
 from .models import CartItem, Order, OrderItem
 from .services import get_or_create_cart
 
@@ -42,38 +42,47 @@ def cart_remove(request, product_id):
         ).delete()
     return redirect("carts:cart_view")
 
-def checkout_view(request):
+
+def checkout(request):
+    if request.method != "POST":
+        return redirect("carts:cart_view")
+
     cart = get_or_create_cart(request)
     cart_items = cart.items.all()
 
     if not cart_items.exists():
-        return redirect("carts:cart_view")
+        messages.error(request, "カートが空です")
+        return redirect("products:product_list")
 
-    total_price = sum(item.total_price for item in cart_items)
+    # Order 作成
+    order = Order.objects.create(
+        first_name=request.POST["firstName"],
+        last_name=request.POST["lastName"],
+        username=request.POST["username"],
+        email=request.POST.get("email", ""),
+        address=request.POST["address"],
+        address2=request.POST.get("address2", ""),
+        country=request.POST["country"],
+        state=request.POST["state"],
+        zip_code=request.POST["zip"],
+        card_name=request.POST["cc-name"],
+        card_number=request.POST["cc-number"],
+        card_expiration=request.POST["cc-expiration"],
+        card_cvv=request.POST["cc-cvv"],
+        total_price=sum(item.total_price for item in cart_items),
+    )
 
-    if request.method == "POST":
-        form = CheckoutForm(request.POST)
-        if form.is_valid():
-            order = form.save(commit=False)
-            order.user = request.user if request.user.is_authenticated else None
-            order.total_price = total_price
-            order.save()
+    # OrderItem 作成
+    for item in cart_items:
+        OrderItem.objects.create(
+            order=order,
+            product=item.product,
+            quantity=item.quantity,
+            price=item.price_at_add,
+        )
 
-            for item in cart_items:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item.product,
-                    quantity=item.quantity,
-                    price=item.price_at_add,
-                )
+    # カートを空にする
+    cart_items.delete()
 
-            cart_items.delete()
-
-            return redirect("carts:checkout_completed")
-
-    else:
-        form = CheckoutForm()
-
-
-def checkout_complete(request):
-    return render(request, "carts/checkout_completed.html")
+    messages.success(request, "購入ありがとうございます")
+    return redirect("products:product_list")
