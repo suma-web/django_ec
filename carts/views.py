@@ -54,12 +54,11 @@ def checkout(request):
         messages.error(request, "カートが空です")
         return redirect("products:list")
 
-    # Order 作成
     order = Order.objects.create(
         first_name=request.POST["firstName"],
         last_name=request.POST["lastName"],
         username=request.POST["username"],
-        email=request.POST.get("email", ""),
+        email=request.POST["email"],         # emailを明細を送るためにマスト
         address=request.POST["address"],
         address2=request.POST.get("address2", ""),
         country=request.POST["country"],
@@ -69,19 +68,17 @@ def checkout(request):
         card_number=request.POST["cc-number"],
         card_expiration=request.POST["cc-expiration"],
         card_cvv=request.POST["cc-cvv"],
-        total_price=sum(item.total_price for item in cart_items),
+        total_price=cart.total_price,
     )
 
-    # OrderItem 作成
-    for item in cart_items:
+    for item in cart.items.all():
         OrderItem.objects.create(
             order=order,
-            product=item.product,
+            product_name=item.product.name,
+            product_price=item.product.price,
             quantity=item.quantity,
-            price=item.price_at_add,
         )
 
-    # カートを空にする
     cart_items.delete()
 
     messages.success(request, "購入ありがとうございます")
