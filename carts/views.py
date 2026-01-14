@@ -52,7 +52,7 @@ def checkout(request):
 
     if not cart_items.exists():
         messages.error(request, "カートが空です")
-        return redirect("products:product_list")
+        return redirect("products:list")
 
     # Order 作成
     order = Order.objects.create(
@@ -85,4 +85,4 @@ def checkout(request):
     cart_items.delete()
 
     messages.success(request, "購入ありがとうございます")
-    return redirect("products:product_list")
+    return redirect("products:list")
