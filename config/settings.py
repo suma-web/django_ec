@@ -143,12 +143,6 @@ STORAGES = {
     },
 }
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': env('CLOUD_NAME'),
-#     'API_KEY': env('CLOUDINARY_API_KEY'),
-#     'API_SECRET': env('CLOUDINARY_API_SECRET'),
-# }
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -167,4 +161,4 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": os.environ.get("MAILGUN_DOMAIN"),
 }
 
-DEFAULT_FROM_EMAIL = "no-reply@" + os.environ.get("MAILGUN_DOMAIN")
+DEFAULT_FROM_EMAIL = "no-reply@example.com"
