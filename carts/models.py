@@ -47,7 +47,10 @@ class Order(models.Model):
         return f"Order #{self.id}"
     
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, 
+        related_name="items", 
+        on_delete=models.CASCADE)
     product_name = models.CharField(max_length=255)
     product_price = models.IntegerField()
     quantity = models.IntegerField()
