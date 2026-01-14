@@ -1,0 +1,10 @@
+ご購入ありがとうございます。
+
+【購入明細】
+{% for item in items %}
+- {{ item.product_name }} × {{ item.quantity }}（¥{{ item.product_price }}）
+{% endfor %}
+
+----------------------
+合計金額：¥{{ order.total_price }}
+----------------------
