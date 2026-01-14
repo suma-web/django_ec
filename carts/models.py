@@ -50,9 +50,9 @@ class OrderItem(models.Model):
         related_name="items",
         on_delete=models.CASCADE
     )
-    product = models.ForeignKey("products.Product", on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
 
-    def subtotal(self):
-        return self.quantity * self.price
+    def total_price(self):
+        return self.price * self.quantity
