@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 from django.contrib import messages
+from django.conf import settings
 from .models import CartItem, Order, OrderItem
 from .services import get_or_create_cart
 from django.core.mail import send_mail
@@ -92,7 +93,7 @@ def checkout(request):
     send_mail(
         subject="【購入完了】ご注文ありがとうございます",
         message=message,
-        from_email=None,
+        from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=[order.email],
     )
 

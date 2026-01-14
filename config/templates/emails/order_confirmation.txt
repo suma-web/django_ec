@@ -1,4 +1,6 @@
-ご購入ありがとうございます。
+{{ order.last_name }} {{ order.first_name }} 様
+
+この度は、ご購入ありがとうございます。
 
 【購入明細】
 {% for item in items %}
