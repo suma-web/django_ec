@@ -3,6 +3,8 @@ from products.models import Product
 from django.contrib import messages
 from .models import CartItem, Order, OrderItem
 from .services import get_or_create_cart
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 def cart_view(request):
@@ -78,6 +80,21 @@ def checkout(request):
             product_price=item.product.price,
             quantity=item.quantity,
         )
+    
+    message = render_to_string(
+        "emails/order_confirmation.txt",
+        {
+            "order": order,
+            "items": order.items.all(),
+        },
+    )
+
+    send_mail(
+        subject="【購入完了】ご注文ありがとうございます",
+        message=message,
+        from_email=None,
+        recipient_list=[order.email],
+    )
 
     cart_items.delete()
 
