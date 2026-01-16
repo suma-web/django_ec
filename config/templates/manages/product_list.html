@@ -1,31 +1,35 @@
 {% extends "manages/base.html" %}
 
 {% block manage_content %}
-  <h4 style="text-align: center; margin-bottom: 20px;">登録されている商品一覧</h4><a href="{% url 'manages:product_create' %}">新しく商品を追加</a>
+  <h3 style="margin-bottom: 20px;">登録されている商品一覧</h3><a href="{% url 'manages:product_create' %}">新しく商品を追加</a>
 
   <table style="margin-bottom: 50px;">
-    <tr>
-      <th>商品名</th>
-      <th>価格</th>
-      <th>追加日</th>
-      <th>商品画像</th>
-      <th>再編集/削除</th>
-    </tr>
+    <thead>
+      <tr>
+        <th>商品名</th>
+        <th>価格</th>
+        <th>追加日</th>
+        <th>商品画像</th>
+        <th>再編集/削除</th>
+      </tr>
+    </thead>
 
     {% for product in products %}
-    <tr style="margin: 0 auto;">
-      <td>{{ product.name }}</td>
-      <td>{{ product.price }}</td>
-      <td>{{ product.created_at }}</td>
-      <td><img class="card-img-top" src="{{ product.image.url }}" alt="" width="100px" height="80px"></td>
-      <td>
-        <button type="submit" class="btn btn-outline-dark mt-auto"><a href="{% url 'manages:product_edit' product.id %}" style="text-decoration: none; color: black;">再編集</a></button> 
+    <tbody>
+      <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.created_at }}</td>
+        <td><img class="card-img-top" src="{{ product.image.url }}" alt="" width="100px" height="80px"></td>
+        <td>
+          <button type="submit" class="btn btn-outline-dark mt-auto"><a href="{% url 'manages:product_edit' product.id %}" style="text-decoration: none; color: black;">再編集</a></button> 
 
-        <form action="{% url 'manages:product_delete' product.id %}" method="post" style="display:inline;">{% csrf_token %}
-          <button type="submit" class="btn btn-outline-dark mt-auto">削除</button>
-        </form>
-      </td>
-    </tr>
+          <form action="{% url 'manages:product_delete' product.id %}" method="post" style="display:inline;">{% csrf_token %}
+            <button type="submit" class="btn btn-outline-dark mt-auto">削除</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
     {% endfor %}
   </table>
 </span>
