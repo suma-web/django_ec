@@ -1,7 +1,7 @@
 {% extends "manages/base.html" %}
 
 {% block manage_content %}
-  <h3 style="margin-bottom: 20px;">登録されている商品一覧</h3><a href="{% url 'manages:product_create' %}">新しく商品を追加</a>
+  <h3 style="margin-bottom: 20px;">登録されている商品一覧</h3>
 
   <table style="margin-bottom: 50px;">
     <thead>
@@ -32,5 +32,6 @@
     </tbody>
     {% endfor %}
   </table>
-</span>
+
+<a href="{% url 'manages:product_create' %}">新しく商品を追加</a>
 {% endblock %}
