@@ -118,7 +118,7 @@ def order_list(request):
 
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    items = order.orderitem_set.all()
+    items = order.items.all()
     return render(request, "carts/order_detail.html", {
         "order": order,
         "items": items
