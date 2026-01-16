@@ -164,3 +164,6 @@ EMAIL_HOST_USER = "postmaster@sandboxb9abe36b8e3d49a9bde83ecfc51667e7.mailgun.or
 EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_API_KEY")
 
 DEFAULT_FROM_EMAIL = "no-reply@sandboxb9abe36b8e3d49a9bde83ecfc51667e7.mailgun.org"
+
+MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY")
+MAILGUN_DOMAIN = "sandboxb9abe36b8e3d49a9bde83ecfc51667e7.mailgun.org"
