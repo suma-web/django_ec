@@ -23,7 +23,7 @@
       <td>¥{{ order.total_price }}</td>
       <td>{{ order.created_at }}</td>
       <td>
-        <a href="{% url 'manages:order_detail' order.id %}">
+        <a href="{% url 'carts:order_detail' order.id %}">
           詳細
         </a>
       </td>
