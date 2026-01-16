@@ -97,7 +97,7 @@ def checkout(request):
 @basic_auth_required
 def order_list(request):
     orders = Order.objects.order_by("-created_at")
-    return render(request, "orders/order_list.html", {
+    return render(request, "carts/order_list.html", {
         "orders": orders
     })
 
@@ -105,7 +105,7 @@ def order_list(request):
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     items = order.items.all()
-    return render(request, "orders/order_detail.html", {
+    return render(request, "carts/order_detail.html", {
         "order": order,
         "items": items
     })
