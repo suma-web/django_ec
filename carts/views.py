@@ -7,8 +7,7 @@ from .services import get_or_create_cart
 import requests
 from django.conf import settings
 from django.template.loader import render_to_string
-from django.contrib.admin.views.decorators import staff_member_required
-
+from .auth import basic_auth_required
 
 def cart_view(request):
     cart = get_or_create_cart(request)
@@ -110,7 +109,7 @@ def checkout(request):
     messages.success(request, "購入ありがとうございます")
     return redirect("products:list")
 
-@staff_member_required
+@basic_auth_required
 def order_list(request):
     orders = Order.objects.order_by("-created_at")
     return render(request, "carts/order_list.html", {
@@ -118,7 +117,7 @@ def order_list(request):
     })
 
 
-@staff_member_required
+@basic_auth_required
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     items = order.orderitem_set.all()
