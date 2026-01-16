@@ -91,10 +91,11 @@ def checkout(request):
     )
 
     send_mail(
-        subject="【購入完了】ご注文ありがとうございます",
-        message=message,
-        from_email=settings.DEFAULT_FROM_EMAIL,
+        subject="ご購入ありがとうございます",
+        message="購入明細です…",
+        from_email=None,  # DEFAULT_FROM_EMAIL が使われる
         recipient_list=[order.email],
+        fail_silently=False,
     )
 
     cart_items.delete()
