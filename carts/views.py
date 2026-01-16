@@ -109,7 +109,6 @@ def checkout(request):
     messages.success(request, "購入ありがとうございます")
     return redirect("products:list")
 
-@basic_auth_required
 def order_list(request):
     orders = Order.objects.order_by("-created_at")
     return render(request, "carts/order_list.html", {
@@ -117,7 +116,6 @@ def order_list(request):
     })
 
 
-@basic_auth_required
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     items = order.orderitem_set.all()
