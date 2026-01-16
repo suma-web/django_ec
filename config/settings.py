@@ -154,13 +154,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 BASIC_AUTH_USER = os.environ.get("BASIC_AUTH_USER", "admin")
 BASIC_AUTH_PASSWORD = os.environ.get("BASIC_AUTH_PASSWORD", "password")
 
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-EMAIL_HOST = "smtp.mailgun.org"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = os.environ.get("MAILGUN_SMTP_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_SMTP_PASSWORD")
-
-DEFAULT_FROM_EMAIL = f"no-reply@{os.environ.get('MAILGUN_DOMAIN')}"
+MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY")
