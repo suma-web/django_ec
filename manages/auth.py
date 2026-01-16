@@ -1,4 +1,5 @@
 import base64
+import os
 from django.http import HttpResponse
 from django.conf import settings
 
@@ -13,10 +14,9 @@ def basic_auth_required(view_func):
                 if auth_type.lower() == "basic":
                     decoded = base64.b64decode(encoded).decode("utf-8")
                     username, password = decoded.split(":", 1)
-
                     if (
-                        username == settings.BASIC_AUTH_USER
-                        and password == settings.BASIC_AUTH_PASSWORD
+                        username == os.environ.get("BASIC_AUTH_USER")
+                        and password == os.environ.get("BASIC_AUTH_PASSWORD")
                     ):
                         return view_func(request, *args, **kwargs)
             except Exception:
