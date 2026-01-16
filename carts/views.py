@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.conf import settings
 from .models import CartItem, Order, OrderItem
 from .services import get_or_create_cart
-import requests
 from django.conf import settings
+from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from .auth import basic_auth_required
 
@@ -91,19 +91,13 @@ def checkout(request):
         },
     )
 
-    def send_order_mail(order, body):
-        return requests.post(
-            f"https://api.mailgun.net/v3/{settings.MAILGUN_DOMAIN}/messages",
-            auth=("api", settings.MAILGUN_API_KEY),
-            data={
-                "from": f"Shop <mailgun@{settings.MAILGUN_DOMAIN}>",
-                "to": [order.email],
-                "subject": "ご購入ありがとうございます",
-                "text": body,
-            },
-            timeout=10,
-        )
-
+    send_mail(
+        subject="テストメール",
+        message="Mailgun SMTP テストです",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=["suehiro0217@icloud.com"],
+        fail_silently=False,
+    )
     cart_items.delete()
 
     messages.success(request, "購入ありがとうございます")
