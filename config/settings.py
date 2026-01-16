@@ -160,10 +160,7 @@ EMAIL_HOST = "smtp.mailgun.org"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = "postmaster@sandboxb9abe36b8e3d49a9bde83ecfc51667e7.mailgun.org"
-EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_API_KEY")
+EMAIL_HOST_USER = os.environ.get("MAILGUN_SMTP_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_SMTP_PASSWORD")
 
-DEFAULT_FROM_EMAIL = "no-reply@sandboxb9abe36b8e3d49a9bde83ecfc51667e7.mailgun.org"
-
-MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY")
-MAILGUN_DOMAIN = "sandboxb9abe36b8e3d49a9bde83ecfc51667e7.mailgun.org"
+DEFAULT_FROM_EMAIL = f"no-reply@{os.environ.get('MAILGUN_DOMAIN')}"
