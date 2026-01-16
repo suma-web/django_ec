@@ -12,3 +12,28 @@ def send_mailgun_message(to_email, subject, text):
             "text": text,
         }
     )
+
+def build_order_email_text(order):
+    lines = []
+    lines.append("ご購入ありがとうございます。\n")
+    lines.append(f"注文番号: {order.id}\n")
+    lines.append("【ご注文内容】")
+
+    total = 0
+
+    for item in order.orderitem_set.all():
+        subtotal = item.product_price * item.quantity
+        total += subtotal
+
+        lines.append(
+            f"- {item.product_name}\n"
+            f"  単価: ¥{item.product_price:,}\n"
+            f"  数量: {item.quantity}\n"
+            f"  小計: ¥{subtotal:,}\n"
+        )
+
+    lines.append("----------------------")
+    lines.append(f"合計金額: ¥{total:,}")
+    lines.append("\nまたのご利用をお待ちしております。")
+
+    return "\n".join(lines)

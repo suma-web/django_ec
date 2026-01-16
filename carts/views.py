@@ -5,7 +5,7 @@ from django.conf import settings
 from .models import CartItem, Order, OrderItem
 from .services import get_or_create_cart
 from django.conf import settings
-from .utils import send_mailgun_message
+from .utils import send_mailgun_message, build_order_email_text
 from django.template.loader import render_to_string
 from .auth import basic_auth_required
 
@@ -92,9 +92,9 @@ def checkout(request):
     )
 
     send_mailgun_message(
-        to_email="suehiro0217@icloud.com",
+        to_email=request.POST.get("email"),
         subject="ご購入ありがとうございます",
-        text="ご注文を受け付けました。"
+        text=build_order_email_text(order)
     )
 
     cart_items.delete()
