@@ -21,7 +21,7 @@ def build_order_email_text(order):
 
     total = 0
 
-    for item in order.orderitem_set.all():
+    for item in order.items.all():
         subtotal = item.product_price * item.quantity
         total += subtotal
 
