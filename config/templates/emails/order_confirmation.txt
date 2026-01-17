@@ -1,0 +1,11 @@
+{{ order.last_name }} {{ order.first_name }} 様
+
+この度はご購入ありがとうございます。
+
+■ ご注文内容
+{% for item in items %}
+- {{ item.product_name }} × {{ item.quantity }}：¥{{ item.price }}
+{% endfor %}
+
+合計金額：¥{{ order.total_price }}
+

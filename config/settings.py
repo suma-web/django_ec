@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'carts',
     'cloudinary',
     'cloudinary_storage', 
+    'anymail',
 ]
 
 MIDDLEWARE = [
@@ -142,12 +143,6 @@ STORAGES = {
     },
 }
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': env('CLOUD_NAME'),
-#     'API_KEY': env('CLOUDINARY_API_KEY'),
-#     'API_SECRET': env('CLOUDINARY_API_SECRET'),
-# }
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -158,3 +153,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 BASIC_AUTH_USER = os.environ.get("BASIC_AUTH_USER", "admin")
 BASIC_AUTH_PASSWORD = os.environ.get("BASIC_AUTH_PASSWORD", "password")
+
+MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY")
