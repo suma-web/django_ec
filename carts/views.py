@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from products.models import Product
 from django.contrib import messages
 from django.conf import settings
+from django.db import transaction
 from .models import CartItem, Order, OrderItem
 from .services import get_or_create_cart
 from django.conf import settings
@@ -57,39 +58,40 @@ def checkout(request):
     if not cart_items.exists():
         messages.error(request, "カートが空です")
         return redirect("products:list")
-
-    order = Order.objects.create(
-        first_name=request.POST["firstName"],
-        last_name=request.POST["lastName"],
-        username=request.POST["username"],
-        email=request.POST["email"],         # emailを明細を送るためにマスト
-        address=request.POST["address"],
-        address2=request.POST.get("address2", ""),
-        country=request.POST["country"],
-        state=request.POST["state"],
-        zip_code=request.POST["zip"],
-        card_name=request.POST["cc-name"],
-        card_number=request.POST["cc-number"],
-        card_expiration=request.POST["cc-expiration"],
-        card_cvv=request.POST["cc-cvv"],
-        total_price=cart.total_price,
-    )
-
-    for item in cart.items.all():
-        OrderItem.objects.create(
-            order=order,
-            product_name=item.product.name,
-            product_price=item.product.price,
-            quantity=item.quantity,
+    
+    with transaction.atomic():
+        order = Order.objects.create(
+            first_name=request.POST["firstName"],
+            last_name=request.POST["lastName"],
+            username=request.POST["username"],
+            email=request.POST["email"],
+            address=request.POST["address"],
+            address2=request.POST.get("address2", ""),
+            country=request.POST["country"],
+            state=request.POST["state"],
+            zip_code=request.POST["zip"],
+            card_name=request.POST["cc-name"],
+            card_number=request.POST["cc-number"],
+            card_expiration=request.POST["cc-expiration"],
+            card_cvv=request.POST["cc-cvv"],
+            total_price=cart.total_price,
         )
+
+        for item in cart.items.all():
+            OrderItem.objects.create(
+                order=order,
+                product_name=item.product.name,
+                product_price=item.product.price,
+                quantity=item.quantity,
+            )
+            
+        cart_items.delete()
     
     send_mailgun_message(
         to_email=request.POST.get("email"),
         subject="ご購入ありがとうございます",
         text=build_order_email_text(order)
     )
-
-    cart_items.delete()
 
     messages.success(request, "購入ありがとうございます")
     return redirect("products:list")
