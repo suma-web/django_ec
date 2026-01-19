@@ -22,8 +22,8 @@ class Cart(models.Model):
 
     @property
     def discount_amount(self):
-        if self.promotion_code and not self.promotion_code.is_used:
-            return self.promotion_code.discount_amount
+        if self.promotion and not self.promotion.is_used:
+            return self.promotion.discount_amount
         return 0
 
     @property
