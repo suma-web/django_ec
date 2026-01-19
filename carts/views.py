@@ -14,14 +14,32 @@ from django.views.decorators.http import require_POST
 
 def cart_view(request):
     cart = get_or_create_cart(request)
+    code = request.POST.get("promotion_code")
+    discount = 0
+    promo = None
+
+    subtotal = sum(
+        item.price_at_add * item.quantity
+        for item in cart.items.all()
+    )
+
+    if code:
+        promo = PromotionCode.objects.filter(
+            code=code,
+            is_used=False
+        ).first()
+
+        if promo:
+            discount = promo.discount_amount
+
+    cart_total = max(subtotal - discount, 0)
 
     context = {
         "cart": cart,
+        "subtotal": subtotal,
         "cart_item_count": cart.items.count(),
-        "cart_total": sum(
-            item.price_at_add * item.quantity
-            for item in cart.items.all()
-        ),
+        "cart_total": cart_total,
+        "promo": promo,
     }
     return render(request, "carts/cart_view.html", context)
 
