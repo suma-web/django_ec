@@ -42,15 +42,15 @@
         </li>
         {% endfor %}
 
-        {% if cart.promotion %}
-        <li class="list-group-item d-flex justify-content-between bg-light">
-          <div>
-            <h6 class="my-0 text-success">プロモーションコード</h6>
-             <small class="text-muted">{{ cart.promotion.code }}</small>
-          </div>
-          <span class="text-success">
-             -¥{{ cart.promotion.discount_amount }}
-          </span>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>小計</span>
+          <strong>¥{{ cart.subtotal }}</strong>
+        </li>
+
+        {% if cart.discount_amount %}
+        <li class="list-group-item d-flex justify-content-between text-success">
+          <span>プロモーション割引</span>
+          <strong>-¥{{ cart.discount_amount }}</strong>
         </li>
         {% endif %}
 
@@ -62,7 +62,7 @@
 
         <form class="card p-2" method="post" action="{% url 'carts:apply_promo_code' %}">{% csrf_token %}
           <div class="input-group">
-            <input type="text" name="promo_code" class="form-control" placeholder="Promo code (7桁英数字)">
+            <input type="text" name="promo_code" class="form-control" placeholder="Promo code (7桁英数字)" maxlength="7">
             <button type="submit" class="btn btn-secondary">Redeem</button>
           </div>
         </form>

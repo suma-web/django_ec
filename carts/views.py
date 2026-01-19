@@ -14,32 +14,14 @@ from django.views.decorators.http import require_POST
 
 def cart_view(request):
     cart = get_or_create_cart(request)
-    code = request.POST.get("promotion_code")
-    discount = 0
-    promo = None
-
-    subtotal = sum(
-        item.price_at_add * item.quantity
-        for item in cart.items.all()
-    )
-
-    if code:
-        promo = PromotionCode.objects.filter(
-            code=code,
-            is_used=False
-        ).first()
-
-        if promo:
-            discount = promo.discount_amount
-
-    cart_total = max(subtotal - discount, 0)
 
     context = {
         "cart": cart,
-        "subtotal": subtotal,
         "cart_item_count": cart.items.count(),
-        "cart_total": cart_total,
-        "promo": promo,
+        "cart_total": sum(
+            item.price_at_add * item.quantity
+            for item in cart.items.all()
+        ),
     }
     return render(request, "carts/cart_view.html", context)
 
@@ -95,6 +77,7 @@ def checkout(request):
             card_expiration=request.POST["cc-expiration"],
             card_cvv=request.POST["cc-cvv"],
             total_price=cart.total_price,
+            promotion_code=cart.promotion_code,
         )
 
         for item in cart.items.all():
@@ -105,9 +88,9 @@ def checkout(request):
                 quantity=item.quantity,
             )
 
-        if cart.promotion:
-            cart.promotion.is_used = True
-            cart.promotion.save()
+        if cart.promotion_code:
+            cart.promotion_code.is_used = True
+            cart.promotion_code.save()
             
         cart.items.all().delete()
         cart.promotion = None
@@ -125,19 +108,18 @@ def checkout(request):
 @require_POST
 def apply_promo_code(request):
     cart = get_cart(request)
-    code = request.POST.get("promo_code", "").strip()
-
-    if len(code) != 7 or not code.isalnum():
-        messages.error(request, "プロモーションコードが不正です")
-        return redirect("carts:cart_view")
+    code = request.POST.get("promo_code", "").strip().upper()
 
     try:
-        promo = PromotionCode.objects.get(code=code, is_used=False)
+        promo = PromotionCode.objects.get(
+            code=code,
+            is_used=False
+        )
     except PromotionCode.DoesNotExist:
-        messages.error(request, "使用できないプロモーションコードです")
+        messages.error(request, "無効なプロモーションコードです")
         return redirect("carts:cart_view")
 
-    cart.promotion = promo
+    cart.promotion_code = promo
     cart.save()
 
     messages.success(
@@ -145,6 +127,7 @@ def apply_promo_code(request):
         f"¥{promo.discount_amount} の割引が適用されました"
     )
     return redirect("carts:cart_view")
+
 
 @basic_auth_required
 def order_list(request):
