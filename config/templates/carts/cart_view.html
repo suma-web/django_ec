@@ -56,7 +56,7 @@
 
         <li class="list-group-item d-flex justify-content-between">
           <span>合計</span>
-          <strong>¥{{ cart_total }}</strong>
+          <strong>¥{{ cart_total } - { cart.promotion.discount_amount }}</strong>
         </li>
       </ul>
 
