@@ -77,7 +77,7 @@ def checkout(request):
             card_expiration=request.POST["cc-expiration"],
             card_cvv=request.POST["cc-cvv"],
             total_price=cart.total_price,
-            promotion=cart.promotion,
+            promotion=cart.promotion_code,
         )
 
         for item in cart.items.all():
