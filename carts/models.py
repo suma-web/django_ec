@@ -1,4 +1,6 @@
 from django.db import models
+import string
+import random
 from products.models import Product
 from django.contrib.auth.models import User
 
@@ -7,9 +9,19 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    promotion = models.ForeignKey(
+        PromotionCode,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+
     @property
     def total_price(self):
-        return sum(item.total_price for item in self.items.all())
+        total = sum(item.total_price for item in self.items.all())
+        if self.promotion:
+            total -= self.promotion.discount_amount
+        return max(total, 0)
 
 class CartItem(models.Model):
     cart = models.ForeignKey(
@@ -58,3 +70,12 @@ class OrderItem(models.Model):
     @property
     def total_price(self):
         return self.product_price * self.quantity
+    
+class PromotionCode(models.Model):
+    code = models.CharField(max_length=7, unique=True)
+    discount_amount = models.PositiveIntegerField()
+    is_used = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.code} (-¥{self.discount_amount})"
