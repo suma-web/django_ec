@@ -8,10 +8,8 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "--count",
             type=int,
-            default=1,
-            help="生成するコードの数"
+            default=10,
         )
 
     def handle(self, *args, **options):
