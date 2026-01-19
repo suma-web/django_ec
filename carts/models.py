@@ -9,7 +9,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    promotion = models.ForeignKey(
+    promotion_code = models.ForeignKey(
         "PromotionCode",
         null=True,
         blank=True,
@@ -18,19 +18,21 @@ class Cart(models.Model):
 
     @property
     def subtotal(self):
-        return sum(item.total_price for item in self.items.all())
+        return sum(
+            item.price_at_add * item.quantity
+            for item in self.items.all()
+        )
 
     @property
     def discount_amount(self):
-        if self.promotion and not self.promotion.is_used:
-            return self.promotion.discount_amount
+        if self.promotion_code:
+            return self.promotion_code.discount_amount
         return 0
 
     @property
     def total_price(self):
-        total = self.subtotal - self.discount_amount
-        return max(total, 0)
-
+        return max(self.subtotal - self.discount_amount, 0)
+        
 class CartItem(models.Model):
     cart = models.ForeignKey(
         Cart, related_name="items", on_delete=models.CASCADE

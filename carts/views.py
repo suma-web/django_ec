@@ -18,10 +18,7 @@ def cart_view(request):
     context = {
         "cart": cart,
         "cart_item_count": cart.items.count(),
-        "cart_total": sum(
-            item.price_at_add * item.quantity
-            for item in cart.items.all()
-        ),
+        "cart_total": cart.total_price,
     }
     return render(request, "carts/cart_view.html", context)
 
@@ -77,7 +74,7 @@ def checkout(request):
             card_expiration=request.POST["cc-expiration"],
             card_cvv=request.POST["cc-cvv"],
             total_price=cart.total_price,
-            promotion=cart.promotion_code,
+            promotion_code=cart.promotion_code,
         )
 
         for item in cart.items.all():
@@ -119,7 +116,7 @@ def apply_promotion_code(request):
         messages.error(request, "無効なプロモーションコードです")
         return redirect("carts:cart_view")
 
-    cart.code = promo
+    cart.promotion_code = promo
     cart.save()
 
     messages.success(
