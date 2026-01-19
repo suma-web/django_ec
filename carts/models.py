@@ -63,6 +63,12 @@ class Order(models.Model):
     card_cvv = models.CharField(max_length=10)
 
     total_price = models.IntegerField()
+    promotion_code = models.ForeignKey(
+        "PromotionCode",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
