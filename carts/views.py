@@ -6,7 +6,7 @@ from django.db import transaction
 from .models import CartItem, Order, OrderItem, PromotionCode
 from .services import get_or_create_cart
 from django.conf import settings
-from .utils import send_mailgun_message, build_order_email_text
+from .utils import send_mailgun_message, build_order_email_text, get_cart
 from django.template.loader import render_to_string
 from .auth import basic_auth_required
 from django.views.decorators.http import require_POST
