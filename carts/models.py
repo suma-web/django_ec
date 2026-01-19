@@ -10,7 +10,7 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     promotion = models.ForeignKey(
-        PromotionCode,
+        "PromotionCode",
         null=True,
         blank=True,
         on_delete=models.SET_NULL
