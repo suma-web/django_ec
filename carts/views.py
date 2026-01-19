@@ -106,7 +106,7 @@ def checkout(request):
     return redirect("products:list")
 
 @require_POST
-def apply_promo_code(request):
+def apply_promotion_code(request):
     cart = get_cart(request)
     code = request.POST.get("promo_code", "").strip().upper()
 
