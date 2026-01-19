@@ -119,7 +119,7 @@ def apply_promotion_code(request):
         messages.error(request, "無効なプロモーションコードです")
         return redirect("carts:cart_view")
 
-    cart.promotion_code = promo
+    cart.code = promo
     cart.save()
 
     messages.success(
