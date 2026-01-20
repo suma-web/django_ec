@@ -62,7 +62,7 @@
 
         <form class="card p-2" method="post" action="{% url 'carts:apply_promotion_code' %}">{% csrf_token %}
           <div class="input-group">
-            <input type="text" name="promo_code" class="form-control" placeholder="Promo code (7桁英数字)" maxlength="7">
+            <input type="text" name="promo_code" class="form-control" placeholder="プロモーションコード" maxlength="7">
             <button type="submit" class="btn btn-secondary">Redeem</button>
           </div>
         </form>
