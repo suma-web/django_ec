@@ -15,10 +15,13 @@ from django.views.decorators.http import require_POST
 def cart_view(request):
     cart = get_or_create_cart(request)
 
+    subtotal = cart.subtotal
+    discount = cart.discount_amount if cart.items.exists() else 0
+
     context = {
         "cart": cart,
         "cart_item_count": cart.items.count(),
-        "cart_total": cart.total_price,
+        "cart_total": max(subtotal - discount, 0),
     }
     return render(request, "carts/cart_view.html", context)
 
