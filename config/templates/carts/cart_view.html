@@ -47,7 +47,7 @@
           <strong>¥{{ cart.subtotal }}</strong>
         </li>
 
-        {% if cart.discount_amount %}
+        {% if cart.items.exists and cart.discount_amount %}
         <li class="list-group-item d-flex justify-content-between text-success">
           <span>プロモーション割引</span>
           <strong>-¥{{ cart.discount_amount }}</strong>
