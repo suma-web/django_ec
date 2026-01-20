@@ -33,8 +33,13 @@ def build_order_email_text(order):
             f"  小計: ¥{subtotal:,}\n"
         )
 
+    if order.promotion_code:
+        lines.append(
+            f"プロモーション割引: -¥{order.promotion_code.discount_amount:,}"
+        )
+
     lines.append("----------------------")
-    lines.append(f"合計金額: ¥{total:,}")
+    lines.append(f"合計金額: ¥{order.total_price:,}")
     lines.append("\nまたのご利用をお待ちしております。")
 
     return "\n".join(lines)
