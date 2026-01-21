@@ -1,5 +1,6 @@
 import os
 import requests
+from .models import Cart
 
 def send_mailgun_message(to_email, subject, text):
     return requests.post(
@@ -32,8 +33,27 @@ def build_order_email_text(order):
             f"  小計: ¥{subtotal:,}\n"
         )
 
+    if order.promotion_code:
+        lines.append(
+            f"プロモーション割引: -¥{order.promotion_code.discount_amount:,}"
+        )
+
     lines.append("----------------------")
-    lines.append(f"合計金額: ¥{total:,}")
+    lines.append(f"合計金額: ¥{order.total_price:,}")
     lines.append("\nまたのご利用をお待ちしております。")
 
     return "\n".join(lines)
+
+def get_cart(request):
+    cart_id = request.session.get("cart_id")
+    if cart_id:
+        try:
+            return Cart.objects.get(id=cart_id)
+        except Cart.DoesNotExist:
+            pass
+
+    cart = Cart.objects.create(
+        user=request.user if request.user.is_authenticated else None
+    )
+    request.session["cart_id"] = cart.id
+    return cart
